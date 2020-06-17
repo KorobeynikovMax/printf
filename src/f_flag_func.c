@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pr_flag.c                                          :+:      :+:    :+:   */
+/*   f_flag_func.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bedavis <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,43 +12,10 @@
 
 #include "printf.h"
 
-int		ft_onepr(int i)
+double	ft_power_d(double n, int power)
 {
-	return (1 + i - i);
-}
-
-int		my_minp(int len, int prec)
-{
-	if (len <= prec || prec == -1)
-		return (len);
+	if (power < 19)
+		return (power ? n * ft_power_d(n, power - 1) : 1);
 	else
-		return (prec);
-}
-
-int		pr_flag(t_printf *p)
-{
-	int		i;
-	char	res;
-	char	*c;
-
-	c = width_symbol(p);
-	res = '%';
-	i = 0;
-	if ((p->bit & FL_MINUS) > 0)
-	{
-		if ((i < p->prec) || (p->prec <= 0))
-			buffer(p, (char *)&res, ft_onepr(i++));
-		while (i++ < p->w && p->is_w)
-			buffer(p, c, 1);
-	}
-	else
-	{
-		while (p->is_w && 
-			(i++ < (int)(p->w - (my_minp(1, p->prec)))))
-			buffer(p, c, 1);
-		i = 0;
-		if ((i++ < p->prec) || (p->prec <= 0))
-			buffer(p, (char *)&res, 1);
-	}
-	return (0);
+		return (n * ft_power_d(n, 18));
 }

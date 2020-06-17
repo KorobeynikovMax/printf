@@ -19,11 +19,16 @@ SOURCES =	ft_printf.c \
 			d_flag.c \
 			c_flag.c \
 			pr_flag.c \
-			p_flag.c
+			p_flag.c \
+			f_flag.c \
+			d_flag_assist.c \
+			help_functions.c \
+			init_functions.c \
+			f_flag_func.c
 
 #Compiler
 CC = gcc
-FLAGS = 
+FLAGS = -Wall -Wextra -Werror
 
 #Ft library
 LIBFT = libft
@@ -49,13 +54,10 @@ GREEN = \033[0;32m
 RED = \033[0;31m
 RESET = \033[0m
 
-all: obj $(LIBFT) $(NAME)
+all: $(LIBFT) $(NAME)
 
-obj:
+$(DIR_O)/%.o: $(DIR_S)/%.c $(HEADER)printf.h
 		@mkdir -p $(DIR_O)
-		@echo "$(NAME): $(GREEN)$(OBJECTS_DIRECTORY) was created$(RESET)"
-
-$(DIR_O)/%.o: $(DIR_S)/%.c main.c
 		@$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $<
 		@echo "\n$(NAME): $(GREEN)object file was created$(RESET)"
 
@@ -69,10 +71,6 @@ $(NAME): $(OBJS)
 	@ar rc $(NAME) $(OBJS)
 	@ranlib $(NAME)
 	@echo "$(NAME): $(GREEN)Creating Printf...$(RESET)"
-
-main:
-	$(CC) $(INCLUDES) -o prog main.c -L. -lftprintf
-
 
 norme:
 	norminette ./libft/
@@ -96,4 +94,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all obj norme main clean fclean re
+.PHONY: all obj norme clean fclean re

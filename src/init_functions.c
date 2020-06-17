@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pr_flag.c                                          :+:      :+:    :+:   */
+/*   init_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bedavis <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,43 +12,46 @@
 
 #include "printf.h"
 
-int		ft_onepr(int i)
+void	init_flags(char *f[12])
 {
-	return (1 + i - i);
+	f[0] = "s";
+	f[1] = "d";
+	f[2] = "i";
+	f[3] = "d";
+	f[4] = "d";
+	f[3] = "x";
+	f[4] = "X";
+	f[5] = "c";
+	f[6] = "u";
+	f[7] = "o";
+	f[8] = "%";
+	f[9] = "p";
+	f[10] = "f";
+	f[11] = NULL;
 }
 
-int		my_minp(int len, int prec)
+void	init_flag_func(int (*b[12]) (t_printf *p))
 {
-	if (len <= prec || prec == -1)
-		return (len);
-	else
-		return (prec);
+	b[0] = &s_flag;
+	b[1] = &d_flag;
+	b[2] = &d_flag;
+	b[3] = &d_flag;
+	b[4] = &d_flag;
+	b[5] = &c_flag;
+	b[6] = &d_flag;
+	b[7] = &d_flag;
+	b[8] = &pr_flag;
+	b[9] = &p_flag;
+	b[10] = &f_flag;
+	b[11] = NULL;
 }
 
-int		pr_flag(t_printf *p)
+void	init_struct(t_printf *p)
 {
-	int		i;
-	char	res;
-	char	*c;
-
-	c = width_symbol(p);
-	res = '%';
-	i = 0;
-	if ((p->bit & FL_MINUS) > 0)
-	{
-		if ((i < p->prec) || (p->prec <= 0))
-			buffer(p, (char *)&res, ft_onepr(i++));
-		while (i++ < p->w && p->is_w)
-			buffer(p, c, 1);
-	}
-	else
-	{
-		while (p->is_w && 
-			(i++ < (int)(p->w - (my_minp(1, p->prec)))))
-			buffer(p, c, 1);
-		i = 0;
-		if ((i++ < p->prec) || (p->prec <= 0))
-			buffer(p, (char *)&res, 1);
-	}
-	return (0);
+	p->bit = 0;
+	p->w = 1;
+	p->is_w = 0;
+	p->prec = -1;
+	p->size = "";
+	p->type = 0;
 }
